@@ -1,6 +1,13 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<h1>Market main page</h1>
+
+<h1>Market page</h1>
+
+<ul>
+    {% for game in games %}
+        <li>Name: <a href="{% url 'game' game.name %}">{{game.name}}</a>, price {{game.price}} </li>
+    {% endfor %}
+</ul>
 
 {% endblock content %}
