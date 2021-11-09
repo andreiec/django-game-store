@@ -5,10 +5,13 @@
 <br>
 <p>{{game.title}} at {{game.price}} - rating {{game.review_ratio}}</p>
 <p>{{game.description}}</p>
+
 <br>
 <br>
+
 <h3>Tags</h3>
 {% for tag in game.tags.all %}
 <span style="border: 1px solid grey;">{{tag}}</span>
 {% endfor %}
+
 {% endblock content %}

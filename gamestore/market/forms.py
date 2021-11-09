@@ -6,4 +6,4 @@ from .models import Game
 class GameForm(ModelForm):
     class Meta:
         model = Game
-        fields = '__all__'
+        fields = ['title', 'description', 'price', 'website_link', 'tags']
