@@ -1,25 +1,23 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Game
+from .forms import GameForm
 
-games = [ 
-    {'name': "game1", 'price': 10.1},
-    {'name': "game2", 'price': 120.24},
-    {'name': "game3", 'price': 13.3},
-    {'name': "game4", 'price': 11.1},
-    {'name': "game5", 'price': 10},
-]
-
+# Main page
 def market(request):
+    games = Game.objects.all()
     context = { 'games': games }
-
     return render(request, 'market/market.html', context)
 
 
+# Specific game
 def game(request, pk):
-    gameObj = None
+    game = Game.objects.get(id=pk)
+    return render(request, 'market/game.html', { 'game': game })
 
-    for i in games:
-        if i['name'] == pk:
-            gameObj = i
 
-    return render(request, 'market/game.html', { 'game': gameObj })
+# Add new game form
+def addGame(request):
+    form = GameForm()
+    context = {'form': form}
+    return render(request, 'market/game_form.html', context)

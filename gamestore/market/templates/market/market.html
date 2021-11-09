@@ -6,7 +6,7 @@
 
 <ul>
     {% for game in games %}
-        <li>Name: <a href="{% url 'game' game.name %}">{{game.name}}</a>, price {{game.price}} </li>
+        <li>Name: <a href="{% url 'game' game.id %}">{{game.title}}</a>, price {{game.price}} </li>
     {% endfor %}
 </ul>
 
