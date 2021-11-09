@@ -21,7 +21,7 @@ def addGame(request):
     form = GameForm()
 
     if request.method == 'POST':
-        form = GameForm(request.POST)
+        form = GameForm(request.POST, request.FILES)
 
         if form.is_valid():
             form.save()
@@ -37,7 +37,7 @@ def updateGame(request, pk):
     form = GameForm(instance=game)
 
     if request.method == 'POST':
-        form = GameForm(request.POST, instance=game)
+        form = GameForm(request.POST, request.FILES, instance=game)
 
         if form.is_valid():
             form.save()

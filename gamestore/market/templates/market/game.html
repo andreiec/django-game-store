@@ -2,6 +2,7 @@
 
 {% block content %}
 <h1>Single Game</h1>
+<img style="max-width: 200px;"src="{{ game.featured_image.url }}">
 <br>
 <p>{{game.title}} at {{game.price}} - rating {{game.review_ratio}}</p>
 <p>{{game.description}}</p>

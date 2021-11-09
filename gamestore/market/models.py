@@ -21,6 +21,7 @@ class Game(models.Model):
     #company_id = models.ForeignKey(Company, on_delete=CASCADE)
     title = models.CharField(max_length=128)
     description = models.TextField(null=True, blank=True)
+    featured_image = models.ImageField(null=True, blank=True, default="default-image.png")
     price = models.DecimalField(max_digits=8, decimal_places=2)
     website_link = models.CharField(max_length=2048, null=True, blank=True)
     tags = models.ManyToManyField('Tag', blank=True)
