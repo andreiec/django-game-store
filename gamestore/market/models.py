@@ -2,23 +2,28 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 import uuid
 
-from django.db.models.deletion import CASCADE
+from django.db.models.deletion import CASCADE, SET, SET_NULL
 # Create your models here.
 
 # Company Model
 class Company(models.Model):
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=2048)
-    #logo = models.ImageField()
+    logo = models.ImageField(null=True, blank=True, upload_to="profiles/", default="profiles/default.jpg")
     website = models.CharField(max_length=1024)
 
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 
+    class Meta:
+        verbose_name_plural = "Companies"
+
+    def __str__(self):
+        return self.name
 
 # Game Model
 class Game(models.Model):
-    #company_id = models.ForeignKey(Company, on_delete=CASCADE)
+    company = models.ForeignKey(Company, on_delete=SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=128)
     description = models.TextField(null=True, blank=True)
     featured_image = models.ImageField(null=True, blank=True, default="default-image.png")
