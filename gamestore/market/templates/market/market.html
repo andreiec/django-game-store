@@ -1,13 +1,66 @@
 {% extends 'main.html' %}
-
 {% block content %}
 
-<h1>Market page</h1>
+<!-- Main Section -->
+<main class="projects">
+    <section class="hero-section text-center">
+        <div class="container container--narrow">
+            <div class="hero-section__box">
+                <h2>Search for <span>Games</span></h2>
+            </div>
 
-<ul>
-    {% for game in games %}
-        <li>Name: <a href="{% url 'game' game.id %}">{{game.title}}</a>, price {{game.price}} <a href="{% url 'delete-game' game.id %}">Delete</a> <a href="{% url 'update-game' game.id %}">Edit</a></li>
-    {% endfor %}
-</ul>
+            <div class="hero-section__search">
+                <form class="form" action="#" method="get">
+                    <div class="form__field">
+                        <label for="formInput#search">Search By Games</label>
+                        <input class="input input--text" id="formInput#search" type="text" name="text" placeholder="Search by Game Title" />
+                    </div>
+                    <input class="btn btn--sub btn--lg" type="submit" value="Search" />
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main container -->
+    <section class="projectsList">
+        <div class="container">
+            <div class="grid grid--three">
+
+                {% for game in games %}
+                    <div class="column">
+                        <div class="card project">
+                            <a href="{% url 'game' game.id %}" class="project">
+                                <img class="project__thumbnail" src="{{game.featured_image.url}}" alt="project thumbnail" />
+                                <div class="card__body">
+
+                                    <h3 class="project__title">{{game.title}}</h3>
+                                    <p><a class="project__author" href="{% url 'game' game.id %}">305 Studios</a></p>
+                                    <p class="project--rating">
+                                        <span style="font-weight: bold;">{{game.review_ratio}} ★</span>
+                                        ({{game.review_count}} Review{{game.review_count|pluralize:"s"}})
+                                    </p>
+                                    <p class="project--rating">Price: {{game.price}}$</p>
+
+                                    <!-- Tags -->
+                                    <div class="project__tags">
+                                        {% for game_tag in game.tags.all %}
+                                            {% if forloop.counter <= 3 %}
+                                                <span class="tag tag--pill tag--main">
+                                                    <small>{{game_tag}}</small>
+                                                </span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </section>
+</main>
 
 {% endblock content %}
