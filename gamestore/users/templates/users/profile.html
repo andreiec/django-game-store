@@ -1,0 +1,77 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<!-- Main Section -->
+<main class="profile my-md">
+    <div class="container">
+        <div class="layout">
+            <div class="column column--1of3">
+                <div class="card text-center">
+                    <div class="card__body dev">
+                        <img class="avatar avatar--xl" src="{{profile.profile_picture.url}}" />
+                        <h2 class="dev__name">{{profile.name}}</h2>
+                        <h4 style="font-size: 15px;">{{profile.email}}</h4>
+                        <ul class="dev__social">
+
+                            {% if profile.social_steam %}
+                                <li>
+                                    <a title="Steam" href="{{profile.social_steam}}" target="_blank">Steam</a>
+                                </li>
+                            {% endif %}
+
+                            {% if profile.social_discord %}
+                                <li>
+                                    <a title="Discord" href="{{profile.social_discord}}" target="_blank">Discord</a>
+                                </li>
+                            {% endif %}
+
+                        </ul>
+                        <a href="#" class="btn btn--sub btn--lg">Send Message </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column column--2of3">
+                <div class="devInfo">
+                    <h3 class="devInfo__title">About Me</h3>
+                    <p class="devInfo__about">{{profile.bio}}</p>
+                </div>
+          
+                <div class="devInfo">
+                    <h3 class="devInfo__title">Owned Games</h3>
+                    <div class="grid grid--two">
+                        
+                        {% for gamekey in game_keys %}
+                            <div class="column">
+                                <div class="card project">
+                                    <a href="{% url 'game' gamekey.game.id %}" class="project">
+                                        <img class="project__thumbnail" src="{{gamekey.game.featured_image.url}}" alt="project thumbnail" />
+                                        <div class="card__body">
+                                            <h3 class="project__title">{{gamekey.game.title}}</h3>
+                                            <p><a class="project__author" href="profile.html">{{gamekey.game.company}}</a></p>
+                                            <p class="project--rating">
+                                                <span style="font-weight: bold;">{{gamekey.game.review_ratio}}★</span> Postitive Feedback ({{gamekey.game.review_count}} Review{{game.review_count|pluralize:"s"}})
+                                            </p>
+
+                                            <div class="project__tags">
+                                                {% for tag in gamekey.game.tags.all|slice:2 %}
+                                                    <span class="tag tag--pill tag--main">
+                                                        <small>{{tag}}</small>
+                                                    </span>
+                                                {% endfor %}
+                                            </div>
+                                            
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock content %}

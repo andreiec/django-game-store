@@ -43,12 +43,10 @@
 
                                     <!-- Tags -->
                                     <div class="project__tags">
-                                        {% for game_tag in game.tags.all %}
-                                            {% if forloop.counter <= 3 %}
-                                                <span class="tag tag--pill tag--main">
-                                                    <small>{{game_tag}}</small>
-                                                </span>
-                                            {% endif %}
+                                        {% for game_tag in game.tags.all|slice:2 %}
+                                            <span class="tag tag--pill tag--main">
+                                                <small>{{game_tag}}</small>
+                                            </span>
                                         {% endfor %}
                                     </div>
                                     

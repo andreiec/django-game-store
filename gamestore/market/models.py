@@ -3,6 +3,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 import uuid
 
 from django.db.models.deletion import CASCADE, SET, SET_NULL
+
+from users.models import Profile
 # Create your models here.
 
 # Company Model
@@ -40,6 +42,18 @@ class Game(models.Model):
     def __str__(self):
         return self.title
 
+
+class GameKey(models.Model):
+    game = models.ForeignKey(Game, on_delete=SET_NULL, null=True)
+    user = models.ForeignKey(Profile, on_delete=SET_NULL, null=True, blank=True)
+    value = models.CharField(max_length=256)
+
+    created = models.DateTimeField(auto_now_add=True)
+    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+
+    # Display title
+    def __str__(self):
+        return f"{self.game} - key: {self.value}"
 
 # Review Model
 class Review(models.Model):
