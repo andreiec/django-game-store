@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+
 from .models import Game
 from .forms import GameForm
 
@@ -17,6 +19,7 @@ def game(request, pk):
 
 
 # Add new game form
+@login_required(login_url='login')
 def addGame(request):
     form = GameForm()
 
@@ -32,6 +35,7 @@ def addGame(request):
 
 
 # Update game form
+@login_required(login_url='login')
 def updateGame(request, pk):
     game = Game.objects.get(id=pk)
     form = GameForm(instance=game)
@@ -48,6 +52,7 @@ def updateGame(request, pk):
 
 
 # Delete game confirm
+@login_required(login_url='login')
 def deleteGame(request, pk):
     game =  Game.objects.get(id=pk)
 
