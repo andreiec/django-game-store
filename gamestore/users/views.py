@@ -6,7 +6,7 @@ from django.contrib import messages
 
 from market.models import GameKey
 from .models import Profile
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, ProfileForm
 
 def profiles(request):
     profiles = Profile.objects.all()
@@ -76,3 +76,28 @@ def registerUser(request):
 
     context = { 'page': page, 'form': form }
     return render(request, 'users/login_register.html', context)
+
+
+@login_required(login_url='login')
+def userAccount(request):
+    profile = request.user.profile
+    owned_games = GameKey.objects.select_related().filter(user_id=profile.id)
+    context = {'profile': profile, 'game_keys': owned_games}
+    return render(request, 'users/account.html', context)
+
+
+@login_required(login_url='login')
+def editAccount(request):
+    profile = request.user.profile
+    form = ProfileForm(instance=profile)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+
+            return redirect('account')
+
+
+    context = {'form': form}
+    return render(request, 'users/profile_form.html', context)
