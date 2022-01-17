@@ -1,14 +1,17 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
-from .models import Game
+from .models import Game, Tag
 from .forms import GameForm
+from .utils import searchGames
 
 # Main page
 def market(request):
-    games = Game.objects.all()
-    context = { 'games': games }
+    games, search_query = searchGames(request)
+
+    context = { 'games': games, 'search_query': search_query }
     return render(request, 'market/market.html', context)
 
 
@@ -61,4 +64,4 @@ def deleteGame(request, pk):
         return redirect('market')
 
     context = { 'object': game }
-    return render(request, 'market/delete_template.html', context) 
+    return render(request, 'delete_template.html', context) 
