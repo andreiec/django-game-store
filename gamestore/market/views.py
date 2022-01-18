@@ -1,17 +1,17 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 
 from .models import Game, Tag
 from .forms import GameForm
-from .utils import searchGames
+from .utils import searchGames, paginateGames
 
 # Main page
 def market(request):
     games, search_query = searchGames(request)
+    custom_range, games = paginateGames(request, games, 6)
 
-    context = { 'games': games, 'search_query': search_query }
+    context = { 'games': games, 'search_query': search_query, 'custom_range': custom_range }
     return render(request, 'market/market.html', context)
 
 

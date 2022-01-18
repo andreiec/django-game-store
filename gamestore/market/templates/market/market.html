@@ -59,6 +59,9 @@
             </div>
         </div>
     </section>
+
+    {% include 'pagination.html' with queryset=games cutom_range=custom_range %}
+    
 </main>
 
 {% endblock content %}

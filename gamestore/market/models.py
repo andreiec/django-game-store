@@ -42,6 +42,8 @@ class Game(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        ordering = ['-created']
 
 class GameKey(models.Model):
     game = models.ForeignKey(Game, on_delete=SET_NULL, null=True)

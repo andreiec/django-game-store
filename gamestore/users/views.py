@@ -9,11 +9,13 @@ from django.db.models import Q
 from market.models import GameKey
 from .models import Profile
 from .forms import CustomUserCreationForm, ProfileForm
-from .utils import searchProfiles
+from .utils import searchProfiles, paginateProfiles
 
 def profiles(request):
     profiles, search_query = searchProfiles(request)
-    context = {'profiles': profiles, 'search_query': search_query}
+    custom_range, profiles = paginateProfiles(request, profiles, 9)
+    
+    context = {'profiles': profiles, 'search_query': search_query, 'custom_range': custom_range}
     return render(request, 'users/profiles.html', context)
 
 
