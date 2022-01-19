@@ -10,7 +10,7 @@
             </div>
 
             <div class="hero-section__search">
-                <form class="form" action="{% url 'market' %}" method="get">
+                <form class="form" id="searchForm" action="{% url 'market' %}" method="get">
                     <div class="form__field">
                         <label for="formInput#search">Search By Games</label>
                         <input class="input input--text" id="formInput#search" type="text" name="search_query" value="{{search_query}}" placeholder="Search by Game Title" />
