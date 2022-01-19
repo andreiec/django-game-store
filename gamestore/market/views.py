@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
 from .models import Game, Tag
-from .forms import GameForm
+from .forms import GameForm, ReviewForm
 from .utils import searchGames, paginateGames
 
 # Main page
@@ -18,7 +18,19 @@ def market(request):
 # Specific game
 def game(request, pk):
     game = Game.objects.get(id=pk)
-    return render(request, 'market/game.html', { 'game': game })
+    form = ReviewForm()
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        review = form.save(commit=False)
+        review.game = game
+        review.owner = request.user.profile
+        review.save()
+
+        game.getRatingCount
+        return redirect('game', pk=game.id)
+
+    return render(request, 'market/game.html', { 'game': game, 'form': form })
 
 
 # Add new game form

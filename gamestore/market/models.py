@@ -43,7 +43,21 @@ class Game(models.Model):
         return self.title
 
     class Meta:
-        ordering = ['-created']
+        ordering = ['created']
+
+    @property
+    def reviewers(self):
+        queryset = self.review_set.all().values_list('owner__id', flat=True)
+        return queryset
+
+    @property
+    def getRatingCount(self):
+        reviews = self.review_set.all()
+        score = int(sum(map(lambda x: x.review_score, reviews)) / reviews.count() * 100)
+        self.review_count = reviews.count()
+        self.review_ratio = score
+        self.save()
+
 
 class GameKey(models.Model):
     game = models.ForeignKey(Game, on_delete=SET_NULL, null=True)
@@ -59,14 +73,17 @@ class GameKey(models.Model):
 
 # Review Model
 class Review(models.Model):
-    #user_id
-    game_id = models.ForeignKey(Game, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
     title = models.CharField(max_length=128)
-    review_message = models.CharField(max_length=2048)
+    review_message = models.TextField(null=True, blank=True)
     review_score = models.IntegerField(default=0, validators=[MaxValueValidator(5), MinValueValidator(1)])
 
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+
+    class Meta:
+        unique_together = [['owner', 'game']]
 
     # Display title
     def __str__(self):
