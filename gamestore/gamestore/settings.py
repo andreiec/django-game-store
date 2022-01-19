@@ -41,6 +41,8 @@ INSTALLED_APPS = [
 
     'market.apps.MarketConfig',
     'users.apps.UsersConfig',
+
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
